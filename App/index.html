@@ -5,1512 +5,865 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>COVID-19 Cluster Prediction</title>
+    <title>COVID-19 Cluster Analysis</title>
 
     <style>
-
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            min-height: 100vh;
             background: #f4f8fc;
-            color: #17345f;
+            color: #172b4d;
+            min-height: 100vh;
         }
-
 
         /* ================= HEADER ================= */
 
-        .header {
-            height: 65px;
-            background: linear-gradient(90deg, #071f45, #0b315f);
-
+        header {
+            height: 72px;
+            background: linear-gradient(135deg, #071f45, #0b315f);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            padding: 0 45px;
-            color: white;
+            padding: 0 35px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
         }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
-        .virus-logo {
-            font-size: 30px;
+        .logo span {
+            color: #69d5ff;
         }
 
-        .logo-text {
-            font-size: 23px;
-            font-weight: 700;
+        .header-text {
+            font-size: 12px;
+            opacity: 0.9;
         }
-
-        .logo-text span {
-            color: #35d7e9;
-        }
-
-        .divider {
-            height: 25px;
-            width: 1px;
-            background: rgba(255,255,255,0.4);
-        }
-
-        .system-name {
-            font-size: 13px;
-            color: #d9e6f7;
-        }
-
-        .nav {
-            display: flex;
-            gap: 20px;
-            font-size: 11px;
-            color: #dce8f7;
-        }
-
-        .nav-icon {
-            font-size: 21px;
-            color: #2ed8ed;
-        }
-
 
         /* ================= MAIN ================= */
 
         .main {
             width: 94%;
-            max-width: 1200px;
-
-            margin: 25px auto;
-
+            max-width: 1250px;
+            margin: 28px auto;
             display: grid;
-
-            grid-template-columns:
-                250px
-                1fr
-                270px;
-
-            gap: 14px;
+            grid-template-columns: 255px 1fr 340px;
+            gap: 20px;
+            align-items: stretch;
         }
-
 
         /* ================= LEFT CARD ================= */
 
         .left-card {
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #123e79,
-                    #071f48
-                );
-
-            border-radius: 10px;
-
-            min-height: 620px;
-
-            padding: 22px 18px;
-
+            min-height: 590px;
+            border-radius: 18px;
+            padding: 28px 22px;
             color: white;
-
+            background: linear-gradient(160deg, #164d8e, #071f48);
+            box-shadow: 0 10px 28px rgba(8, 38, 79, 0.22);
             position: relative;
-
             overflow: hidden;
-
-            box-shadow:
-                0 5px 20px
-                rgba(23, 58, 100, 0.15);
         }
 
-        .badge {
+        .virus {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 2px solid rgba(105, 213, 255, 0.18);
+            border-radius: 50%;
+            right: -65px;
+            bottom: 35px;
+        }
 
-            display: inline-block;
+        .virus::before,
+        .virus::after {
+            content: "";
+            position: absolute;
+            border: 2px solid rgba(105, 213, 255, 0.16);
+            border-radius: 50%;
+        }
 
-            background: #159fc6;
+        .virus::before {
+            width: 105px;
+            height: 105px;
+            left: 20px;
+            top: 20px;
+        }
 
-            padding: 6px 13px;
-
-            border-radius: 20px;
-
-            font-size: 10px;
-
-            font-weight: 600;
-
-            margin-bottom: 14px;
+        .virus::after {
+            width: 55px;
+            height: 55px;
+            left: 45px;
+            top: 45px;
         }
 
         .left-card h1 {
-
-            font-size: 30px;
-
-            line-height: 1.08;
-
-            margin-bottom: 10px;
-        }
-
-        .left-card h1 span {
-
-            color: #35d9e7;
-        }
-
-        .left-description {
-
-            font-size: 12px;
-
-            line-height: 1.55;
-
-            color: #d4e2f4;
-
-            margin-bottom: 25px;
-        }
-
-
-        /* LEFT FEATURES */
-
-        .feature {
-
-            display: flex;
-
-            gap: 11px;
-
-            margin: 19px 0;
-
+            font-size: 29px;
+            line-height: 1.2;
+            margin-bottom: 14px;
             position: relative;
-
             z-index: 2;
         }
 
-        .feature-icon {
+        .left-card .intro {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #d9eaff;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
 
-            min-width: 30px;
-
-            height: 30px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(40, 201, 229, 0.18);
-
-            border:
-                1px solid
-                rgba(60, 215, 235, 0.5);
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            font-size: 14px;
+        .feature {
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 2;
         }
 
         .feature h3 {
-
-            font-size: 12px;
-
-            margin-bottom: 3px;
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: #72ddff;
         }
 
         .feature p {
-
-            font-size: 10px;
-
-            color: #b8cce4;
+            font-size: 10.5px;
+            line-height: 1.5;
+            color: #dbe9f8;
         }
-
-        .bottom-text {
-
-            position: absolute;
-
-            bottom: 16px;
-
-            left: 18px;
-
-            font-size: 10px;
-
-            color: #b5cce5;
-
-            font-style: italic;
-        }
-
-        .virus-decoration {
-
-            position: absolute;
-
-            bottom: 38px;
-
-            right: -5px;
-
-            font-size: 95px;
-
-            opacity: 0.8;
-        }
-
 
         /* ================= CENTER CARD ================= */
 
         .center-card {
-
             background: white;
-
-            border-radius: 10px;
-
-            padding: 23px 25px;
-
-            box-shadow:
-                0 5px 20px
-                rgba(25, 70, 110, 0.09);
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 10px 28px rgba(25, 55, 90, 0.10);
         }
 
-        .form-heading {
-
-            display: flex;
-
-            gap: 13px;
-
-            align-items: flex-start;
-
-            margin-bottom: 21px;
-        }
-
-        .heading-icon {
-
-            width: 34px;
-
-            height: 34px;
-
-            background: #e9f4ff;
-
-            color: #0878df;
-
-            border-radius: 6px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 18px;
-        }
-
-        .form-heading h2 {
-
-            font-size: 16px;
-
-            color: #153a68;
-
-            margin-bottom: 4px;
-        }
-
-        .form-heading p {
-
-            font-size: 10px;
-
-            color: #71839b;
-        }
-
-
-        /* ================= INPUT GRID ================= */
-
-        .input-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 15px 17px;
-        }
-
-        .input-box {
-
-            width: 100%;
-        }
-
-        .input-box label {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 6px;
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            color: #294c78;
-
+        .center-card h2 {
+            font-size: 20px;
+            color: #102e56;
             margin-bottom: 6px;
         }
 
-        .label-icon {
-
-            color: #0878df;
-
-            font-size: 13px;
+        .center-card .subheading {
+            font-size: 11px;
+            color: #708198;
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
 
-        .input-box input,
-        .input-box select {
+        .form-group {
+            margin-bottom: 17px;
+        }
 
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            color: #314766;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
             width: 100%;
-
-            height: 39px;
-
-            border:
-                1px solid
-                #dce6f1;
-
-            border-radius: 6px;
-
-            padding: 0 12px;
-
+            height: 43px;
+            border: 1px solid #d6e0eb;
+            border-radius: 9px;
+            padding: 0 13px;
             font-size: 12px;
-
-            color: #52667f;
-
-            outline: none;
-
+            color: #243b5a;
             background: #fbfdff;
+            outline: none;
+            transition: 0.2s;
         }
 
-        .input-box input:focus,
-        .input-box select:focus {
-
-            border-color: #438eea;
-
-            box-shadow:
-                0 0 0 2px
-                rgba(67,142,234,0.1);
+        input:focus,
+        select:focus {
+            border-color: #3ba9e8;
+            box-shadow: 0 0 0 3px rgba(59, 169, 232, 0.10);
         }
 
-        .input-box select {
-
-            cursor: pointer;
+        .location-note {
+            margin-top: 6px;
+            font-size: 9.5px;
+            color: #7d8da2;
         }
-
-        .full-width {
-
-            grid-column: 1 / 3;
-        }
-
-
-        /* ================= BUTTON ================= */
 
         .predict-btn {
-
             width: 100%;
-
-            height: 43px;
-
+            height: 46px;
+            margin-top: 5px;
             border: none;
-
-            border-radius: 7px;
-
-            margin-top: 22px;
-
+            border-radius: 10px;
+            background: linear-gradient(135deg, #0c65b7, #159bd7);
             color: white;
-
             font-size: 13px;
-
-            font-weight: 600;
-
+            font-weight: bold;
             cursor: pointer;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #0878df,
-                    #8845ee
-                );
-
-            box-shadow:
-                0 5px 12px
-                rgba(70, 100, 220, 0.2);
-
-            transition: 0.3s;
+            box-shadow: 0 7px 15px rgba(18, 126, 190, 0.23);
+            transition: 0.2s;
         }
 
         .predict-btn:hover {
-
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 8px 18px
-                rgba(70, 100, 220, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 9px 18px rgba(18, 126, 190, 0.30);
         }
 
-        .predict-btn.loading {
-
-            opacity: 0.7;
-
-            pointer-events: none;
+        .predict-btn:disabled {
+            opacity: 0.65;
+            cursor: wait;
+            transform: none;
         }
 
-
-        /* ================= RELIABLE ================= */
-
-        .reliable {
-
+        .secure {
             text-align: center;
-
-            font-size: 10px;
-
-            color: #71839b;
-
-            margin-top: 22px;
+            margin-top: 12px;
+            color: #91a0b1;
+            font-size: 9.5px;
         }
-
-        .reliable span {
-
-            margin: 0 7px;
-
-            color: #2f70c9;
-        }
-
 
         /* ================= RIGHT CARD ================= */
 
         .right-card {
-
             background: white;
-
-            border-radius: 10px;
-
-            padding: 22px;
-
-            box-shadow:
-                0 5px 20px
-                rgba(25, 70, 110, 0.09);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 28px rgba(25, 55, 90, 0.10);
+            min-height: 590px;
         }
 
         .result-heading {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            margin-bottom: 12px;
+            font-size: 18px;
+            color: #102e56;
+            margin-bottom: 5px;
         }
 
-        .result-heading-icon {
-
-            font-size: 25px;
+        .result-sub {
+            font-size: 10px;
+            color: #8190a2;
+            margin-bottom: 18px;
         }
-
-        .result-heading h2 {
-
-            font-size: 15px;
-
-            color: #193c6b;
-        }
-
-
-        /* ================= CLUSTER CIRCLE ================= */
 
         .cluster-circle {
-
             width: 155px;
-
             height: 155px;
-
+            margin: 12px auto 16px;
             border-radius: 50%;
-
-            margin:
-                12px auto 15px;
-
-            background:
-
-                conic-gradient(
-
-                    #36d7db 0deg,
-
-                    #36d7db 105deg,
-
-                    #3f9df4 170deg,
-
-                    #8c50ef 270deg,
-
-                    #dfe8f3 270deg,
-
-                    #dfe8f3 360deg
-                );
-
+            background: linear-gradient(145deg, #eaf7ff, #ffffff);
+            border: 9px solid #cceeff;
+            box-shadow:
+                inset 0 0 20px rgba(32, 158, 220, 0.10),
+                0 8px 20px rgba(34, 117, 164, 0.10);
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
-            position: relative;
-        }
-
-        .cluster-circle::before {
-
-            content: "";
-
-            width: 125px;
-
-            height: 125px;
-
-            background: white;
-
-            border-radius: 50%;
-
-            position: absolute;
-        }
-
-        .cluster-content {
-
-            position: relative;
-
-            text-align: center;
-
-            z-index: 2;
+            flex-direction: column;
         }
 
         .cluster-label {
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            color: #3b5472;
+            font-size: 9px;
+            color: #7890a7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .cluster-number {
-
-            font-size: 38px;
-
-            font-weight: 700;
-
-            color: #264d8b;
-
+            font-size: 42px;
+            font-weight: bold;
+            color: #0b67ad;
             margin-top: 3px;
         }
 
-
-        /* ================= CLUSTER BADGE ================= */
-
         .cluster-badge {
-
-            display: table;
-
-            margin: auto;
-
-            background: #ecebff;
-
-            color: #6a57d8;
-
+            width: fit-content;
+            max-width: 100%;
+            margin: 0 auto 20px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background: #e9f7ff;
+            color: #0873b7;
+            text-align: center;
             font-size: 10px;
+            font-weight: bold;
+        }
 
-            padding: 7px 13px;
-
+        .analysis-box {
             border-radius: 12px;
+            padding: 16px;
+            background: #f4f9fd;
+            border: 1px solid #e1edf5;
+        }
 
+        .analysis-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #153b66;
+            margin-bottom: 8px;
+        }
+
+        .analysis-text {
+            font-size: 10.5px;
+            line-height: 1.65;
+            color: #596c83;
+        }
+
+        .profile-title {
+            margin-top: 18px;
+            margin-bottom: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #294667;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .profile-item {
+            padding: 9px;
+            border-radius: 9px;
+            background: #f8fbfd;
+            border: 1px solid #e7eef4;
+        }
+
+        .profile-item span {
+            display: block;
+            font-size: 8.5px;
+            color: #8795a5;
+            margin-bottom: 4px;
+        }
+
+        .profile-item strong {
+            font-size: 11px;
+            color: #244563;
+        }
+
+        .location-result {
+            margin-top: 13px;
+            font-size: 9.5px;
+            color: #73849a;
             text-align: center;
         }
 
-
-        /* ================= MEANING BOX ================= */
-
-        .meaning-box {
-
-            margin-top: 16px;
-
-            padding: 14px;
-
-            background: #edf6ff;
-
-            border:
-                1px solid
-                #d6eaff;
-
-            border-radius: 7px;
-        }
-
-        .meaning-title {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 7px;
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            color: #244c7c;
-
-            margin-bottom: 7px;
-        }
-
-        .meaning-title span {
-
-            font-size: 16px;
-
-            color: #1686df;
-        }
-
-        .meaning-box p {
-
-            font-size: 10px;
-
-            color: #6d819b;
-
-            line-height: 1.55;
-        }
-
-
-        /* ================= MAP ================= */
-
-        .map-box {
-
-            height: 110px;
-
+        .error {
+            display: none;
             margin-top: 14px;
-
-            border-radius: 7px;
-
-            background:
-
-                linear-gradient(
-                    135deg,
-                    #f4f9ff,
-                    #edf5fc
-                );
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            position: relative;
-
-            overflow: hidden;
+            padding: 10px;
+            border-radius: 9px;
+            background: #fff0f0;
+            border: 1px solid #ffd1d1;
+            color: #b33a3a;
+            font-size: 10px;
+            line-height: 1.5;
+            text-align: center;
         }
-
-        .map {
-
-            font-size: 75px;
-
-            opacity: 0.22;
-        }
-
-        .chart-bars {
-
-            position: absolute;
-
-            right: 14px;
-
-            bottom: 12px;
-
-            display: flex;
-
-            gap: 3px;
-
-            align-items: flex-end;
-        }
-
-        .bar {
-
-            width: 6px;
-
-            background: #4a9df0;
-
-            border-radius:
-                2px 2px 0 0;
-        }
-
-        .bar1 {
-
-            height: 16px;
-        }
-
-        .bar2 {
-
-            height: 28px;
-        }
-
-        .bar3 {
-
-            height: 42px;
-        }
-
 
         /* ================= RESPONSIVE ================= */
 
-        @media(max-width: 950px) {
-
+        @media (max-width: 1000px) {
             .main {
-
-                grid-template-columns:
-                    1fr 1fr;
+                grid-template-columns: 1fr 1fr;
             }
 
             .left-card {
-
-                grid-column: 1 / 3;
-
-                min-height: 330px;
-            }
-
-            .right-card {
-
-                grid-column: 1 / 3;
+                grid-column: 1 / -1;
+                min-height: auto;
             }
         }
 
-
-        @media(max-width: 650px) {
-
-            .header {
-
-                padding: 0 15px;
+        @media (max-width: 700px) {
+            header {
+                padding: 0 18px;
             }
 
-            .nav {
-
+            .header-text {
                 display: none;
             }
 
             .main {
-
-                width: 94%;
-
-                grid-template-columns:
-                    1fr;
+                width: 92%;
+                grid-template-columns: 1fr;
             }
 
-            .left-card,
+            .left-card {
+                grid-column: auto;
+            }
+
             .center-card,
-            .right-card {
-
-                grid-column: auto;
-            }
-
-            .input-grid {
-
-                grid-template-columns:
-                    1fr;
-            }
-
-            .full-width {
-
-                grid-column: auto;
+            .right-card,
+            .left-card {
+                min-height: auto;
             }
         }
-
     </style>
 </head>
 
 
 <body>
 
-
     <!-- ================= HEADER ================= -->
 
-    <header class="header">
-
-        <div class="logo-section">
-
-            <div class="virus-logo">
-                🦠
-            </div>
-
-            <div class="logo-text">
-                COVID<span>-19</span>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="system-name">
-                Cluster Prediction System
-            </div>
-
+    <header>
+        <div class="logo">
+            COVID<span>-19</span> Cluster Analysis
         </div>
 
-
-        <div class="nav">
-
-            <span>Data</span>
-
-            <span>•</span>
-
-            <span>Machine Learning</span>
-
-            <span>•</span>
-
-            <span>Useful Insights</span>
-
-            <span class="nav-icon">
-                📊
-            </span>
-
+        <div class="header-text">
+            Machine Learning • K-Means Clustering
         </div>
-
     </header>
-
 
 
     <!-- ================= MAIN ================= -->
 
-    <main class="main">
+    <div class="main">
 
 
         <!-- ================= LEFT ================= -->
 
         <section class="left-card">
 
+            <h1>COVID-19<br>Cluster Analysis</h1>
 
-            <div class="badge">
-                ⚡ SMART ANALYTICS
-            </div>
-
-
-            <h1>
-
-                COVID-19<br>
-
-                <span>
-                    Cluster Prediction
-                </span>
-
-            </h1>
-
-
-            <p class="left-description">
-
-                Enter the COVID-19 case details and select
-                the WHO Region. Our machine learning model
-                will identify the cluster for the given data.
-
+            <p class="intro">
+                Analyze COVID-19 case patterns and identify
+                the cluster that most closely matches the
+                information provided.
             </p>
 
+            <div class="feature">
+                <h3>📍 Location Based</h3>
+                <p>
+                    Enter a city, state or country. The application
+                    automatically obtains the geographical coordinates.
+                </p>
+            </div>
 
             <div class="feature">
-
-                <div class="feature-icon">
-                    🌐
-                </div>
-
-                <div>
-
-                    <h3>
-                        Global Data
-                    </h3>
-
-                    <p>
-                        6 WHO Regions
-                    </p>
-
-                </div>
-
+                <h3>📊 Case Analysis</h3>
+                <p>
+                    Confirmed, deaths, recovered and active cases
+                    are analyzed using the trained ML model.
+                </p>
             </div>
-
 
             <div class="feature">
-
-                <div class="feature-icon">
-                    ◉
-                </div>
-
-                <div>
-
-                    <h3>
-                        Machine Learning
-                    </h3>
-
-                    <p>
-                        K-Means Clustering
-                    </p>
-
-                </div>
-
+                <h3>🤖 K-Means Model</h3>
+                <p>
+                    The trained K-Means model groups similar
+                    COVID-19 case patterns into seven clusters.
+                </p>
             </div>
-
 
             <div class="feature">
-
-                <div class="feature-icon">
-                    ⚡
-                </div>
-
-                <div>
-
-                    <h3>
-                        Quick & Accurate
-                    </h3>
-
-                    <p>
-                        Get results in seconds
-                    </p>
-
-                </div>
-
+                <h3>💡 Interpretation</h3>
+                <p>
+                    The result explains what the predicted cluster
+                    represents instead of showing only a cluster number.
+                </p>
             </div>
 
-
-            <div class="virus-decoration">
-                🦠
-            </div>
-
-
-            <div class="bottom-text">
-
-                Together for a<br>
-                Healthier Tomorrow
-
-            </div>
+            <div class="virus"></div>
 
         </section>
-
 
 
         <!-- ================= CENTER ================= -->
 
         <section class="center-card">
 
+            <h2>Enter COVID-19 Information</h2>
 
-            <div class="form-heading">
-
-                <div class="heading-icon">
-                    📄
-                </div>
-
-                <div>
-
-                    <h2>
-                        Enter COVID-19 Details
-                    </h2>
-
-                    <p>
-                        Fill in the information below to get
-                        the cluster prediction.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- IMPORTANT:
-                 JavaScript handles prediction.
-                 No action="/predict"
-            -->
+            <p class="subheading">
+                Provide the location and COVID-19 case information
+                to generate a cluster-based analysis.
+            </p>
 
             <form id="predictionForm">
 
+                <div class="form-group">
+                    <label for="location">Location</label>
 
-                <div class="input-grid">
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        placeholder="e.g. Lucknow, India"
+                        required
+                    >
 
-
-                    <!-- LATITUDE -->
-
-                    <div class="input-box">
-
-                        <label>
-
-                            <span class="label-icon">
-                                📍
-                            </span>
-
-                            Latitude
-
-                        </label>
-
-                        <input
-                            type="number"
-                            step="any"
-                            name="latitude"
-                            placeholder="e.g. 26.8467"
-                            required>
-
+                    <div class="location-note">
+                        Latitude and longitude are calculated automatically.
                     </div>
-
-
-
-                    <!-- LONGITUDE -->
-
-                    <div class="input-box">
-
-                        <label>
-
-                            <span class="label-icon">
-                                📍
-                            </span>
-
-                            Longitude
-
-                        </label>
-
-                        <input
-                            type="number"
-                            step="any"
-                            name="longitude"
-                            placeholder="e.g. 80.9462"
-                            required>
-
-                    </div>
-
-
-
-                    <!-- CONFIRMED -->
-
-                    <div class="input-box">
-
-                        <label>
-
-                            <span class="label-icon">
-                                ☀
-                            </span>
-
-                            Confirmed Cases
-
-                        </label>
-
-                        <input
-                            type="number"
-                            step="any"
-                            name="confirmed"
-                            placeholder="e.g. 12500"
-                            required>
-
-                    </div>
-
-
-
-                    <!-- DEATHS -->
-
-                    <div class="input-box">
-
-                        <label>
-
-                            <span class="label-icon">
-                                ✚
-                            </span>
-
-                            Deaths
-
-                        </label>
-
-                        <input
-                            type="number"
-                            step="any"
-                            name="deaths"
-                            placeholder="e.g. 450"
-                            required>
-
-                    </div>
-
-
-
-                    <!-- RECOVERED -->
-
-                    <div class="input-box">
-
-                        <label>
-
-                            <span class="label-icon">
-                                🛡
-                            </span>
-
-                            Recovered Cases
-
-                        </label>
-
-                        <input
-                            type="number"
-                            step="any"
-                            name="recovered"
-                            placeholder="e.g. 9800"
-                            required>
-
-                    </div>
-
-
-
-                    <!-- ACTIVE -->
-
-                    <div class="input-box">
-
-                        <label>
-
-                            <span class="label-icon">
-                                👤
-                            </span>
-
-                            Active Cases
-
-                        </label>
-
-                        <input
-                            type="number"
-                            step="any"
-                            name="active"
-                            placeholder="e.g. 2250"
-                            required>
-
-                    </div>
-
-
-
-                    <!-- WHO REGION -->
-
-                    <div class="input-box full-width">
-
-                        <label>
-
-                            <span class="label-icon">
-                                🌐
-                            </span>
-
-                            WHO Region
-
-                        </label>
-
-
-                        <select
-                            name="who_region"
-                            required>
-
-                            <option value="">
-                                Select WHO Region
-                            </option>
-
-                            <option value="Africa">
-                                Africa
-                            </option>
-
-                            <option value="Americas">
-                                Americas
-                            </option>
-
-                            <option value="Eastern Mediterranean">
-                                Eastern Mediterranean
-                            </option>
-
-                            <option value="Europe">
-                                Europe
-                            </option>
-
-                            <option value="South-East Asia">
-                                South-East Asia
-                            </option>
-
-                            <option value="Western Pacific">
-                                Western Pacific
-                            </option>
-
-                        </select>
-
-                    </div>
-
                 </div>
 
 
+                <div class="form-group">
+                    <label for="confirmed">Confirmed Cases</label>
 
-                <!-- BUTTON -->
+                    <input
+                        type="number"
+                        id="confirmed"
+                        name="confirmed"
+                        min="0"
+                        step="any"
+                        placeholder="Enter confirmed cases"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="deaths">Deaths</label>
+
+                    <input
+                        type="number"
+                        id="deaths"
+                        name="deaths"
+                        min="0"
+                        step="any"
+                        placeholder="Enter deaths"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="recovered">Recovered</label>
+
+                    <input
+                        type="number"
+                        id="recovered"
+                        name="recovered"
+                        min="0"
+                        step="any"
+                        placeholder="Enter recovered cases"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="active">Active Cases</label>
+
+                    <input
+                        type="number"
+                        id="active"
+                        name="active"
+                        min="0"
+                        step="any"
+                        placeholder="Enter active cases"
+                        required
+                    >
+                </div>
+
 
                 <button
                     type="submit"
                     class="predict-btn"
-                    id="predictButton">
-
-                    ⚡ Predict Cluster →
-
+                    id="predictButton"
+                >
+                    Analyze COVID Pattern
                 </button>
 
             </form>
 
-
-
-            <div class="reliable">
-
-                <span>
-                    Simple
-                </span>
-
-                •
-
-                <span>
-                    Fast
-                </span>
-
-                •
-
-                <span>
-                    Reliable
-                </span>
-
+            <div class="secure">
+                🔒 Your input is processed locally by the application.
             </div>
 
         </section>
-
 
 
         <!-- ================= RIGHT ================= -->
 
         <section class="right-card">
 
+            <h2 class="result-heading">Analysis Result</h2>
 
-            <div class="result-heading">
+            <p class="result-sub">
+                Your COVID-19 pattern analysis will appear here.
+            </p>
 
-                <div class="result-heading-icon">
-                    🦠
-                </div>
-
-                <h2>
-                    Prediction Result
-                </h2>
-
-            </div>
-
-
-
-            <!-- CIRCLE -->
 
             <div class="cluster-circle">
 
-                <div class="cluster-content">
+                <div class="cluster-label">
+                    Cluster
+                </div>
 
-                    <div class="cluster-label">
-                        Cluster
-                    </div>
-
-                    <div
-                        class="cluster-number"
-                        id="clusterNumber">
-
-                        -
-
-                    </div>
-
+                <div
+                    class="cluster-number"
+                    id="clusterNumber"
+                >
+                    -
                 </div>
 
             </div>
 
-
-
-            <!-- BADGE -->
 
             <div
                 class="cluster-badge"
-                id="clusterBadge">
-
-                Enter data to get prediction
-
+                id="clusterBadge"
+            >
+                Enter information to analyze
             </div>
 
 
+            <div class="analysis-box">
 
-            <!-- MEANING -->
-
-            <div class="meaning-box">
-
-                <div class="meaning-title">
-
-                    <span>
-                        💡
-                    </span>
-
-                    What does this mean?
-
+                <div
+                    class="analysis-title"
+                    id="analysisTitle"
+                >
+                    Cluster Interpretation
                 </div>
 
-
-                <p id="meaningText">
-
-                    Enter the COVID-19 details and click
-                    Predict Cluster to see the result.
-
+                <p
+                    class="analysis-text"
+                    id="analysisText"
+                >
+                    Enter the location and COVID-19 case information
+                    and click "Analyze COVID Pattern" to see what
+                    the predicted cluster represents.
                 </p>
 
             </div>
 
 
+            <div
+                class="profile-title"
+                id="profileTitle"
+                style="display:none;"
+            >
+                Typical Cluster Profile
+            </div>
 
-            <!-- MAP -->
 
-            <div class="map-box">
+            <div
+                class="profile-grid"
+                id="profileGrid"
+                style="display:none;"
+            >
 
-                <div class="map">
-                    🗺️
+                <div class="profile-item">
+                    <span>Avg. Confirmed</span>
+                    <strong id="avgConfirmed">-</strong>
                 </div>
 
+                <div class="profile-item">
+                    <span>Avg. Deaths</span>
+                    <strong id="avgDeaths">-</strong>
+                </div>
 
-                <div class="chart-bars">
+                <div class="profile-item">
+                    <span>Avg. Recovered</span>
+                    <strong id="avgRecovered">-</strong>
+                </div>
 
-                    <div class="bar bar1"></div>
-
-                    <div class="bar bar2"></div>
-
-                    <div class="bar bar3"></div>
-
+                <div class="profile-item">
+                    <span>Avg. Active</span>
+                    <strong id="avgActive">-</strong>
                 </div>
 
             </div>
 
+
+            <div
+                class="location-result"
+                id="locationResult"
+            ></div>
+
+
+            <div
+                class="error"
+                id="errorBox"
+            ></div>
+
         </section>
 
-    </main>
-
+    </div>
 
 
     <!-- ================= JAVASCRIPT ================= -->
 
     <script>
 
-        const form =
-            document.getElementById(
-                "predictionForm"
-            );
+        const form = document.getElementById("predictionForm");
 
-
-        const button =
-            document.getElementById(
-                "predictButton"
-            );
-
+        const button = document.getElementById("predictButton");
 
         const clusterNumber =
-            document.getElementById(
-                "clusterNumber"
-            );
-
+            document.getElementById("clusterNumber");
 
         const clusterBadge =
-            document.getElementById(
-                "clusterBadge"
-            );
+            document.getElementById("clusterBadge");
+
+        const analysisTitle =
+            document.getElementById("analysisTitle");
+
+        const analysisText =
+            document.getElementById("analysisText");
+
+        const profileTitle =
+            document.getElementById("profileTitle");
+
+        const profileGrid =
+            document.getElementById("profileGrid");
+
+        const avgConfirmed =
+            document.getElementById("avgConfirmed");
+
+        const avgDeaths =
+            document.getElementById("avgDeaths");
+
+        const avgRecovered =
+            document.getElementById("avgRecovered");
+
+        const avgActive =
+            document.getElementById("avgActive");
+
+        const locationResult =
+            document.getElementById("locationResult");
+
+        const errorBox =
+            document.getElementById("errorBox");
 
 
-        const meaningText =
-            document.getElementById(
-                "meaningText"
-            );
+        form.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            errorBox.style.display = "none";
+
+            button.disabled = true;
+            button.textContent = "Analyzing...";
 
 
-
-        form.addEventListener(
-            "submit",
-            async function(event) {
+            const formData = new FormData(form);
 
 
-                // Stop page reload
-                event.preventDefault();
+            try {
+
+                const response = await fetch("/predict", {
+
+                    method: "POST",
+
+                    body: formData
+
+                });
 
 
-                // Button loading
-                button.classList.add(
-                    "loading"
-                );
-
-                button.innerHTML =
-                    "⏳ Predicting...";
+                const data = await response.json();
 
 
-                // Get form data
-                const formData =
-                    new FormData(form);
+                if (!data.success) {
 
-
-                try {
-
-
-                    // Send data to FastAPI
-                    const response =
-                        await fetch(
-                            "/predict",
-                            {
-                                method: "POST",
-                                body: formData
-                            }
-                        );
-
-
-                    // Check response
-                    if (!response.ok) {
-
-                        throw new Error(
-                            "Prediction failed"
-                        );
-
-                    }
-
-
-                    // Get JSON
-                    const data =
-                        await response.json();
-
-
-                    // Update circle
-                    clusterNumber.textContent =
-                        data.cluster;
-
-
-                    // Update badge
-                    clusterBadge.textContent =
-                        "Data falls under Cluster "
-                        + data.cluster;
-
-
-                    // Update meaning
-                    meaningText.textContent =
-                        "The given data has been classified into Cluster "
-                        + data.cluster
-                        + " based on the patterns learned from the COVID-19 dataset.";
-
+                    throw new Error(
+                        data.error || "Unable to analyze the input."
+                    );
 
                 }
 
 
-                catch (error) {
+                /* =========================
+                   UPDATE CLUSTER
+                ========================= */
+
+                clusterNumber.textContent =
+                    data.cluster;
 
 
-                    console.error(error);
+                clusterBadge.textContent =
+                    data.title;
 
 
-                    clusterNumber.textContent =
-                        "?";
+                /* =========================
+                   UPDATE ANALYSIS
+                ========================= */
+
+                analysisTitle.textContent =
+                    data.title;
 
 
-                    clusterBadge.textContent =
-                        "Prediction failed";
+                analysisText.textContent =
+                    data.analysis;
 
 
-                    meaningText.textContent =
-                        "Unable to get prediction. Please check your server and model.";
+                /* =========================
+                   UPDATE PROFILE
+                ========================= */
 
-                }
+                profileTitle.style.display =
+                    "block";
+
+                profileGrid.style.display =
+                    "grid";
 
 
-                // Reset button
-                button.classList.remove(
-                    "loading"
-                );
+                avgConfirmed.textContent =
+                    data.profile.confirmed.toLocaleString();
 
-                button.innerHTML =
-                    "⚡ Predict Cluster →";
+
+                avgDeaths.textContent =
+                    data.profile.deaths.toLocaleString();
+
+
+                avgRecovered.textContent =
+                    data.profile.recovered.toLocaleString();
+
+
+                avgActive.textContent =
+                    data.profile.active.toLocaleString();
+
+
+                /* =========================
+                   LOCATION
+                ========================= */
+
+                locationResult.textContent =
+                    "Location analyzed: " +
+                    data.location;
+
 
             }
 
-        );
+            catch (error) {
+
+                errorBox.textContent =
+                    error.message;
+
+                errorBox.style.display =
+                    "block";
+
+            }
+
+            finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Analyze COVID Pattern";
+
+            }
+
+        });
 
     </script>
-
 
 </body>
 
